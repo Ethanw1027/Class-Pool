@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile</title>
+    <style>
+        .popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #f9f9f9;
+            padding: 20px;
+            border: 1px solid #ccc;
+            z-index: 1000;
+        }
+    </style>
+</head>
+<body>
+    <h2>Welcome {{ first_name }} {{ last_name }}!</h2>
+    {% if courses %}
+        <h3>Your Courses:</h3>
+        <ul>
+            {% for course, role in courses.items() %}
+                <li>{{ course }} - {{ role }}</li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No courses registered</p>
+    {% endif %}
+    <button onclick="showPopup()">Add Course</button>
+    
+    <div id="addCoursePopup" class="popup">
+        <form id="add-course-form" method="POST" action="/add_course">
+            <label for="course_dept">Course Department:</label><br>
+            <input type="text" id="course_dept" name="course_dept" required><br>
+            <label for="course_num">Course Number:</label><br>
+            <input type="text" id="course_num" name="course_num" required><br>
+            <label for="role">Role:</label><br>
+            <select id="role" name="role" required>
+                <option value="Previous student">Previous student</option>
+                <option value="Current student">Current student</option>
+                <option value="Previous TA">Previous TA</option>
+                <option value="Current TA">Current TA</option>
+                <option value="Instructor">Instructor</option>
+            </select><br><br>
+            <button type="submit">Add</button>
+            <button type="button" onclick="hidePopup()">Cancel</button>
+        </form>
+    </div>
+
+    <script>
+        function showPopup() {
+            document.getElementById("addCoursePopup").style.display = "block";
+        }
+
+        function hidePopup() {
+            document.getElementById("addCoursePopup").style.display = "none";
+        }
+    </script>
+
+    <a href="/">Logout</a>
+</body>
+</html>
