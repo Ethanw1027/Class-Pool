@@ -5,6 +5,47 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User Profile</title>
     <style>
+        body {
+            background-color: #0f3057;
+            color: #ffffff;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+        h2 {
+            color: #00b4d8;
+        }
+        h3 {
+            color: #00b4d8;
+            margin-top: 20px;
+        }
+        p {
+            color: #ffffff;
+            margin-top: 20px;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0 auto;
+            text-align: center;
+        }
+        li {
+            margin-top: 10px;
+            color: #66c2ff;
+        }
+        button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            background-color: #00b4d8;
+            color: #ffffff;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #008ba3;
+        }
         .popup {
             display: none;
             position: fixed;
@@ -16,9 +57,49 @@
             border: 1px solid #ccc;
             z-index: 1000;
         }
+        .popup label {
+            color: #000000;
+        }
+        input[type="text"],
+        input[type="number"],
+        select {
+            width: 300px;
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 2px solid #00b4d8;
+            border-radius: 5px;
+            background-color: transparent;
+            color: #000000;
+        }
+        input[type="text"]:focus,
+        input[type="number"]:focus,
+        select:focus {
+            outline: none;
+            border-color: #ffffff;
+        }
+        input[type="submit"],
+        .popup button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            background-color: #00b4d8;
+            color: #ffffff;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        input[type="submit"]:hover,
+        .popup button:hover {
+            background-color: #008ba3;
+        }
+        #logout-button {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+        }
     </style>
 </head>
 <body>
+    <button id="logout-button" onclick="window.location.href='/'">Logout</button>
     <h2>Welcome {{ first_name }} {{ last_name }}!</h2>
     {% if courses %}
         <h3>Your Courses:</h3>
@@ -30,6 +111,7 @@
     {% else %}
         <p>No courses registered</p>
     {% endif %}
+    <br>
     <button onclick="showPopup()">Add Course</button>
     
     <div id="addCoursePopup" class="popup">
@@ -46,8 +128,8 @@
                 <option value="Current TA">Current TA</option>
                 <option value="Instructor">Instructor</option>
             </select><br><br>
-            <button type="submit">Add</button>
             <button type="button" onclick="hidePopup()">Cancel</button>
+            <button type="submit">Add</button>
         </form>
     </div>
 
@@ -60,7 +142,5 @@
             document.getElementById("addCoursePopup").style.display = "none";
         }
     </script>
-
-    <a href="/">Logout</a>
 </body>
 </html>

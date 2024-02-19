@@ -32,6 +32,7 @@ def register_user():
     last_name = request.form['last_name']
     email = request.form['email']
     password = request.form['password']
+    confirm_password = request.form['confirm_password']
 
     # Check if passwords match
     confirm_password = request.form['confirm_password']
@@ -41,7 +42,8 @@ def register_user():
 
     # Check if email already exists
     if email in df['Email'].values:
-        return "Email already exists", 400
+        error = "This email is already in use"
+        return render_template('register.html', error=error)
 
     new_user = pd.DataFrame({'First Name': [first_name],
                             'Last Name': [last_name],

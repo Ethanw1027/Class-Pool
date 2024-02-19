@@ -4,6 +4,68 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User Registration</title>
+    <style>
+        body {
+            background-color: #0f3057;
+            color: #ffffff;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+        h2 {
+            color: #00b4d8;
+        }
+        form {
+            margin-top: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        input[type="text"],
+        input[type="email"],
+        input[type="password"] {
+            width: 300px;
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 2px solid #00b4d8;
+            border-radius: 5px;
+            background-color: transparent;
+            color: #ffffff;
+        }
+        input[type="text"]:focus,
+        input[type="email"]:focus,
+        input[type="password"]:focus {
+            outline: none;
+            border-color: #ffffff;
+        }
+        input[type="submit"],
+        button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            background-color: #00b4d8;
+            color: #ffffff;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        input[type="submit"]:hover,
+        button:hover {
+            background-color: #008ba3;
+        }
+        .error {
+            color: red;
+            margin-top: 10px;
+        }
+        .back-button {
+            margin-top: 20px;
+            background-color: #000000;
+        }
+        .back-button:hover {
+            background-color: #333333;
+        }
+    </style>
 </head>
 <body>
     <h2>User Registration</h2>
@@ -18,6 +80,10 @@
         <input type="password" id="password" name="password" required><br>
         <label for="confirm_password">Confirm Password:</label><br>
         <input type="password" id="confirm_password" name="confirm_password" required><br><br>
+        {% if error %}
+            <p class="error">{{ error }}</p>
+        {% endif %}
+        <button type="button" class="back-button" onclick="window.location.href='/'">Back</button>
         <button type="submit">Register</button>
     </form>
 </body>
