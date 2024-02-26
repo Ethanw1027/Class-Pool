@@ -1,17 +1,21 @@
 from flask import Flask, render_template, request, redirect, session
 import pandas as pd
 import ast
+from GradeDistribution import GradeDistribution
 
 app = Flask(__name__)
 app.secret_key = 'supersecretkey'  # Required for session management
-csv_file = "users.csv"
+users_data_file = "databases/users.csv"
+grades_data_file = "databases/grades.csv"
 
 # Read initial data from CSV
 try:
-    df = pd.read_csv(csv_file)
+    df = pd.read_csv(users_data_file)
 except FileNotFoundError:
     df = pd.DataFrame(columns=["First Name", "Last Name", "Email", "Password", "Courses"])
-    df.to_csv(csv_file, index=False)
+    df.to_csv(users_data_file, index=False)
+
+grade_dist = GradeDistribution(grades_data_file)
 
 @app.route('/')
 def index():
@@ -51,7 +55,7 @@ def register_user():
                             'Password': [password],
                             'Courses': {}})
     df = pd.concat([df, new_user], ignore_index=True)
-    df.to_csv(csv_file, index=False)
+    df.to_csv(users_data_file, index=False)
     
     # Log the user in
     session['email'] = email
@@ -115,9 +119,23 @@ def add_course():
 
     # Update the DataFrame with the modified courses dictionary
     df.loc[df['Email'] == email, 'Courses'] = str(courses_dict)
-    df.to_csv(csv_file, index=False)
+    df.to_csv(users_data_file, index=False)
 
     return redirect('/profile')
+
+@app.route('/prof_search', methods=['GET', 'POST'])
+def prof_search():
+    return render_template('prof_search.html', ranked_profs=None)
+    #if request.method == 'POST':
+    #    course_dept = request.form['course_dept']
+    #    course_num = request.form['course_num']
+    #    course_data = grade_dist.search_class(course_dept, course_num)
+    #    
+    #    if not course_data.empty:
+    #        ranked_profs = grade_dist.rank_profs(course_data)
+    #        return render_template('prof_search.html', ranked_profs=ranked_profs)
+    #else:
+    #    return render_template('prof_search.html', ranked_profs=None)
 
 if __name__ == '__main__':
     app.run(debug=True)

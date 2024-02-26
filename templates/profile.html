@@ -96,10 +96,16 @@
             top: 10px;
             left: 10px;
         }
+        #prof-search-button {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+        }
     </style>
 </head>
 <body>
     <button id="logout-button" onclick="window.location.href='/'">Logout</button>
+    <button id="prof-search-button" onclick="window.location.href='/prof_search'">Instructor Search</button>
     <h2>Welcome {{ first_name }} {{ last_name }}!</h2>
     {% if courses %}
         <h3>Your Courses:</h3>

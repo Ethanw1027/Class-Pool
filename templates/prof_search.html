@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Find Best Instructor</title>
+    <style>
+        body {
+            background-color: #0f3057;
+            color: #ffffff;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+        h2 {
+            color: #00b4d8;
+        }
+        h3 {
+            color: #00b4d8;
+            margin-top: 20px;
+        }
+        p {
+            color: #ffffff;
+            margin-top: 20px;
+        }
+        ol {
+            padding: 0;
+            margin: 0 auto;
+            text-align: left;
+            color: #66c2ff;
+        }
+        li {
+            margin-top: 10px;
+        }
+        button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            background-color: #00b4d8;
+            color: #ffffff;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #008ba3;
+        }
+        input[type="text"] {
+            width: 300px;
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 2px solid #00b4d8;
+            border-radius: 5px;
+            background-color: transparent;
+            color: #ffffff;
+        }
+        input[type="text"]:focus {
+            outline: none;
+            border-color: #ffffff;
+        }
+        input[type="submit"] {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            background-color: #00b4d8;
+            color: #ffffff;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        input[type="submit"]:hover {
+            background-color: #008ba3;
+        }
+        a {
+            color: #66c2ff;
+            text-decoration: none;
+            margin-top: 20px;
+            display: block;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <h2>Find Best Instructor</h2>
+    <form method="POST" action="/prof_search">
+        <label for="course_dept">Course Department:</label><br>
+        <input type="text" id="course_dept" name="course_dept" required><br>
+        <label for="course_num">Course Number:</label><br>
+        <input type="text" id="course_num" name="course_num" required><br><br>
+        <button type="submit">Submit</button>
+    </form>
+    {% if ranked_profs %}
+        <h3>Ranked Professors:</h3>
+        <ol>
+            {% for prof, avg_gpa in ranked_profs.items() %}
+                <li>{{ prof }} - Average GPA: {{ avg_gpa }}</li>
+            {% endfor %}
+        </ol>
+    {% endif %}
+    <a href="/profile">Back to Profile</a>
+</body>
+</html>
