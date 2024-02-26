@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, redirect, session
 import pandas as pd
-import ast
+#import json
 from GradeDistribution import GradeDistribution
 
 app = Flask(__name__)
@@ -12,7 +12,7 @@ grades_data_file = "databases/grades.csv"
 try:
     df = pd.read_csv(users_data_file)
 except FileNotFoundError:
-    df = pd.DataFrame(columns=["First Name", "Last Name", "Email", "Password", "Courses"])
+    df = pd.DataFrame(columns=["First Name", "Last Name", "Email", "Password"]) # , "Courses"
     df.to_csv(users_data_file, index=False)
 
 grade_dist = GradeDistribution(grades_data_file)
@@ -52,8 +52,7 @@ def register_user():
     new_user = pd.DataFrame({'First Name': [first_name],
                             'Last Name': [last_name],
                             'Email': [email],
-                            'Password': [password],
-                            'Courses': {}})
+                            'Password': [password]})    #'Courses': {}
     df = pd.concat([df, new_user], ignore_index=True)
     df.to_csv(users_data_file, index=False)
     
@@ -91,37 +90,37 @@ def profile():
     last_name = user['Last Name'].iloc[0]
 
     # Retrieve the user's courses dictionary from DataFrame
-    courses_dict_str = user['Courses'].iloc[0]
-    courses_dict = ast.literal_eval(courses_dict_str) if not pd.isna(courses_dict_str) else {}
+    #courses_json_str = user['Courses'].iloc[0]
+    #courses_dict = json.loads(courses_json_str) if not pd.isna(courses_json_str) else {}
 
-    return render_template('profile.html', first_name=first_name, last_name=last_name, courses=courses_dict)
+    return render_template('profile.html', first_name=first_name, last_name=last_name) # , courses=courses_dict
 
-@app.route('/add_course', methods=['POST'])
-def add_course():
-    global df
-    if 'email' not in session:
-        return redirect('/login')
-
-    email = session['email']
-    course_dept = request.form['course_dept']
-    course_num = request.form['course_num']
-    role = request.form['role']
-    
-    # Construct the course key
-    course_key = f"{course_dept} {course_num}"
-    
-    # Retrieve the user's courses dictionary from DataFrame
-    courses_dict_str = df[df['Email'] == email]['Courses'].iloc[0]
-    courses_dict = ast.literal_eval(courses_dict_str) if not pd.isna(courses_dict_str) else {}
-
-    # Add the new course and role to the dictionary
-    courses_dict[course_key] = role
-
-    # Update the DataFrame with the modified courses dictionary
-    df.loc[df['Email'] == email, 'Courses'] = str(courses_dict)
-    df.to_csv(users_data_file, index=False)
-
-    return redirect('/profile')
+#@app.route('/add_course', methods=['POST'])
+#def add_course():
+#    global df
+#    if 'email' not in session:
+#        return redirect('/login')
+#
+#    email = session['email']
+#    course_dept = request.form['course_dept']
+#    course_num = request.form['course_num']
+#    role = request.form['role']
+#    
+#    # Construct the course key
+#    course_key = f"{course_dept} {course_num}"
+#    
+#    # Retrieve the user's courses dictionary from DataFrame
+#    courses_json_str = df[df['Email'] == email]['Courses'].iloc[0]
+#    courses_dict = json.loads(courses_json_str) if not pd.isna(courses_json_str) else {}
+#
+#    # Add the new course and role to the dictionary
+#    courses_dict[course_key] = role
+#
+#    # Update the DataFrame with the modified courses dictionary
+#    df.loc[df['Email'] == email, 'Courses'] = json.dumps(courses_dict)
+#    df.to_csv(users_data_file, index=False)
+#
+#    return redirect('/profile')
 
 @app.route('/prof_search', methods=['GET', 'POST'])
 def prof_search():

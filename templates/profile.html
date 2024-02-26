@@ -107,7 +107,7 @@
     <button id="logout-button" onclick="window.location.href='/'">Logout</button>
     <button id="prof-search-button" onclick="window.location.href='/prof_search'">Instructor Search</button>
     <h2>Welcome {{ first_name }} {{ last_name }}!</h2>
-    {% if courses %}
+    <!-- {% if courses %}
         <h3>Your Courses:</h3>
         <ul>
             {% for course, role in courses.items() %}
@@ -148,5 +148,6 @@
             document.getElementById("addCoursePopup").style.display = "none";
         }
     </script>
+-->
 </body>
 </html>
