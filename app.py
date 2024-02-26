@@ -138,4 +138,8 @@ def prof_search():
     #    return render_template('prof_search.html', ranked_profs=None)
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=int(os.environ.get('PORT', 5000)), debug=True)
+    # For testing
+    # app.run(debug=True)
+    
+    # For Netlify deployment
+    app.run(host='0.0.0.0', port=int(os.environ.get('PORT', 5000)))
