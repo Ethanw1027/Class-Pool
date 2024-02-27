@@ -2,7 +2,11 @@ from flask import Flask, render_template, request, redirect, session
 import pandas as pd
 from GradeDistribution import GradeDistribution
 import os
+import shutil
 #import json
+
+# Can be "testing" or "Netlify"
+run_as_netlify = True
 
 app = Flask(__name__)
 app.secret_key = 'supersecretkey'  # Required for session management
@@ -138,8 +142,19 @@ def prof_search():
     #    return render_template('prof_search.html', ranked_profs=None)
 
 if __name__ == '__main__':
-    # For testing
-    #app.run(debug=True)
-    
-    # For Netlify deployment
-    app.run(host='0.0.0.0', port=int(os.environ.get('PORT', 5000)))
+    if run_as_netlify == True:
+        # Iterate over each file in the source directory
+        for filename in os.listdir("templates"):
+            # Construct the source and destination file paths
+            source_file = os.path.join("templates", filename)
+            destination_file = os.path.join(".", filename)
+            
+            # Check if the current item is a file (not a subdirectory)
+            if os.path.isfile(source_file):
+                # Copy the file from the source to the destination
+                shutil.copy(source_file, destination_file)
+                print(f'Copied {source_file} to {destination_file}')
+        
+        app.run(host='0.0.0.0', port=int(os.environ.get('PORT', 5000)))
+    else:
+        app.run(debug=True)
