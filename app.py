@@ -139,7 +139,7 @@ def prof_search():
 
 if __name__ == '__main__':
     # For testing
-    # app.run(debug=True)
+    #app.run(debug=True)
     
     # For Netlify deployment
     app.run(host='0.0.0.0', port=int(os.environ.get('PORT', 5000)))
